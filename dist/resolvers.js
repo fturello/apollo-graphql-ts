@@ -6,10 +6,12 @@ const users = [
         email: "alice@example.com",
         posts: [
             {
+                userId: "1",
                 title: "My First Post",
                 content: "This is the content of my first post.",
             },
             {
+                userId: "1",
                 title: "My Second Post",
                 content: "This is the content of my second post.",
             },
@@ -21,6 +23,7 @@ const users = [
         email: "bob@example.com",
         posts: [
             {
+                userId: "2",
                 title: "My First Post",
                 content: "This is the content of my first post.",
             },
@@ -38,7 +41,7 @@ const resolvers = {
         },
     },
     Mutation: {
-        createPost: (parent, { userId, title, content }) => {
+        createPost: (parent, { userId, title, content, }) => {
             const user = users.find((user) => user.id === userId);
             if (!user) {
                 throw new Error("User not found");
@@ -61,7 +64,7 @@ const resolvers = {
                 throw new Error("Post not found");
             }
         },
-        updatePost: (parent, { userId, title, input }) => {
+        updatePost: (parent, { userId, title, input, }) => {
             const user = users.find((user) => user.id === userId);
             if (!user) {
                 throw new Error("User not found");

@@ -1,15 +1,19 @@
+import { User, Post, PostInput, UserInput } from "./types.js";
+
 // Datas
-const users = [
+const users: User[] = [
 	{
 		id: "1",
 		name: "Alice",
 		email: "alice@example.com",
 		posts: [
 			{
+				userId: "1",
 				title: "My First Post",
 				content: "This is the content of my first post.",
 			},
 			{
+				userId: "1",
 				title: "My Second Post",
 				content: "This is the content of my second post.",
 			},
@@ -21,6 +25,7 @@ const users = [
 		email: "bob@example.com",
 		posts: [
 			{
+				userId: "2",
 				title: "My First Post",
 				content: "This is the content of my first post.",
 			},
@@ -30,25 +35,36 @@ const users = [
 
 const resolvers = {
 	Query: {
-		users: () => users,
-		user: (parent, args) => users.find((user) => user.id === args.id),
+		users: (): User[] => users,
+		user: (parent: any, args: { id: string }): User | undefined =>
+			users.find((user) => user.id === args.id),
 	},
 	User: {
-		posts: (parent, args, context, info) => {
+		posts: (parent: User, args: any, context: any, info: any) => {
 			return parent.posts;
 		},
 	},
 	Mutation: {
-		createPost: (parent, { userId, title, content }) => {
+		createPost: (
+			parent: any,
+			{
+				userId,
+				title,
+				content,
+			}: { userId: string; title: string; content: string }
+		): Post => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
 			}
-			const newPost = { userId, title, content };
+			const newPost: Post = { userId, title, content };
 			user.posts.push(newPost);
 			return newPost;
 		},
-		deletePost: (parent, { userId, title }) => {
+		deletePost: (
+			parent: any,
+			{ userId, title }: { userId: string; title: string }
+		): boolean => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
@@ -61,7 +77,14 @@ const resolvers = {
 				throw new Error("Post not found");
 			}
 		},
-		updatePost: (parent, { userId, title, input }) => {
+		updatePost: (
+			parent: any,
+			{
+				userId,
+				title,
+				input,
+			}: { userId: string; title: string; input: PostInput }
+		): boolean => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
@@ -74,7 +97,10 @@ const resolvers = {
 				throw new Error("Post not found");
 			}
 		},
-		createUser: (parent, { id, name, email }) => {
+		createUser: (
+			parent: any,
+			{ id, name, email }: { id: string; name: string; email: string }
+		): User => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				throw new Error("ID already exists");
@@ -83,7 +109,7 @@ const resolvers = {
 			users.push(newUser);
 			return newUser;
 		},
-		deleteUser: (parent, { id }) => {
+		deleteUser: (parent: any, { id }: { id: string }): boolean => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				users.splice(index, 1);
@@ -92,7 +118,10 @@ const resolvers = {
 				throw new Error("ID does not exist");
 			}
 		},
-		updateUser: (parent, { id, input }) => {
+		updateUser: (
+			parent: any,
+			{ id, input }: { id: string; input: UserInput }
+		): boolean => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				users[index] = { ...users[index], ...input }; // modification d'une partie de l'objet
