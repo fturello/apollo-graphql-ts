@@ -40,7 +40,7 @@ const resolvers = {
 			users.find((user) => user.id === args.id),
 	},
 	User: {
-		posts: (parent: User, args: any, context: any, info: any) => {
+		posts: (parent: User, args: any, context: any, info: any): Post[] => {
 			return parent.posts;
 		},
 	},
