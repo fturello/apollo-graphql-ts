@@ -72,7 +72,7 @@ const resolvers = {
 			const index = user.posts.findIndex((post) => post.title === title);
 			if (index !== -1) {
 				user.posts.splice(index, 1);
-				return true; // la suppression a réussi
+				return true;
 			} else {
 				throw new Error("Post not found");
 			}
@@ -92,7 +92,7 @@ const resolvers = {
 			const index = user.posts.findIndex((post) => post.title === title);
 			if (index !== -1) {
 				user.posts[index] = { ...user.posts[index], ...input };
-				return true; // la modification a réussi
+				return true;
 			} else {
 				throw new Error("Post not found");
 			}
@@ -113,7 +113,7 @@ const resolvers = {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				users.splice(index, 1);
-				return true; // la suppression a réussi
+				return true;
 			} else {
 				throw new Error("ID does not exist");
 			}
@@ -124,8 +124,8 @@ const resolvers = {
 		): boolean => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
-				users[index] = { ...users[index], ...input }; // modification d'une partie de l'objet
-				return true; // la modification a réussi
+				users[index] = { ...users[index], ...input };
+				return true;
 			} else {
 				throw new Error("ID does not exist");
 			}
