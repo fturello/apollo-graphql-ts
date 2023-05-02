@@ -45,14 +45,14 @@ const resolvers = {
 		},
 	},
 	Mutation: {
-		createPost: (
+		createPost: async (
 			parent: any,
 			{
 				userId,
 				title,
 				content,
 			}: { userId: string; title: string; content: string }
-		): Post => {
+		): Promise<Post> => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
@@ -61,10 +61,10 @@ const resolvers = {
 			user.posts.push(newPost);
 			return newPost;
 		},
-		deletePost: (
+		deletePost: async (
 			parent: any,
 			{ userId, title }: { userId: string; title: string }
-		): boolean => {
+		): Promise<boolean> => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
@@ -77,14 +77,14 @@ const resolvers = {
 				throw new Error("Post not found");
 			}
 		},
-		updatePost: (
+		updatePost: async (
 			parent: any,
 			{
 				userId,
 				title,
 				input,
 			}: { userId: string; title: string; input: PostInput }
-		): boolean => {
+		): Promise<boolean> => {
 			const user = users.find((user) => user.id === userId);
 			if (!user) {
 				throw new Error("User not found");
@@ -97,10 +97,10 @@ const resolvers = {
 				throw new Error("Post not found");
 			}
 		},
-		createUser: (
+		createUser: async (
 			parent: any,
 			{ id, name, email }: { id: string; name: string; email: string }
-		): User => {
+		): Promise<User> => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				throw new Error("ID already exists");
@@ -109,7 +109,10 @@ const resolvers = {
 			users.push(newUser);
 			return newUser;
 		},
-		deleteUser: (parent: any, { id }: { id: string }): boolean => {
+		deleteUser: async (
+			parent: any,
+			{ id }: { id: string }
+		): Promise<boolean> => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				users.splice(index, 1);
@@ -118,10 +121,10 @@ const resolvers = {
 				throw new Error("ID does not exist");
 			}
 		},
-		updateUser: (
+		updateUser: async (
 			parent: any,
 			{ id, input }: { id: string; input: UserInput }
-		): boolean => {
+		): Promise<boolean> => {
 			const index = users.findIndex((user) => user.id === id);
 			if (index !== -1) {
 				users[index] = { ...users[index], ...input };
