@@ -41,7 +41,7 @@ const resolvers = {
         },
     },
     Mutation: {
-        createPost: (parent, { userId, title, content, }) => {
+        createPost: async (parent, { userId, title, content, }) => {
             const user = users.find((user) => user.id === userId);
             if (!user) {
                 throw new Error("User not found");
@@ -50,7 +50,7 @@ const resolvers = {
             user.posts.push(newPost);
             return newPost;
         },
-        deletePost: (parent, { userId, title }) => {
+        deletePost: async (parent, { userId, title }) => {
             const user = users.find((user) => user.id === userId);
             if (!user) {
                 throw new Error("User not found");
@@ -58,13 +58,13 @@ const resolvers = {
             const index = user.posts.findIndex((post) => post.title === title);
             if (index !== -1) {
                 user.posts.splice(index, 1);
-                return true; // la suppression a réussi
+                return true;
             }
             else {
                 throw new Error("Post not found");
             }
         },
-        updatePost: (parent, { userId, title, input, }) => {
+        updatePost: async (parent, { userId, title, input, }) => {
             const user = users.find((user) => user.id === userId);
             if (!user) {
                 throw new Error("User not found");
@@ -72,13 +72,13 @@ const resolvers = {
             const index = user.posts.findIndex((post) => post.title === title);
             if (index !== -1) {
                 user.posts[index] = { ...user.posts[index], ...input };
-                return true; // la modification a réussi
+                return true;
             }
             else {
                 throw new Error("Post not found");
             }
         },
-        createUser: (parent, { id, name, email }) => {
+        createUser: async (parent, { id, name, email }) => {
             const index = users.findIndex((user) => user.id === id);
             if (index !== -1) {
                 throw new Error("ID already exists");
@@ -87,21 +87,21 @@ const resolvers = {
             users.push(newUser);
             return newUser;
         },
-        deleteUser: (parent, { id }) => {
+        deleteUser: async (parent, { id }) => {
             const index = users.findIndex((user) => user.id === id);
             if (index !== -1) {
                 users.splice(index, 1);
-                return true; // la suppression a réussi
+                return true;
             }
             else {
                 throw new Error("ID does not exist");
             }
         },
-        updateUser: (parent, { id, input }) => {
+        updateUser: async (parent, { id, input }) => {
             const index = users.findIndex((user) => user.id === id);
             if (index !== -1) {
-                users[index] = { ...users[index], ...input }; // modification d'une partie de l'objet
-                return true; // la modification a réussi
+                users[index] = { ...users[index], ...input };
+                return true;
             }
             else {
                 throw new Error("ID does not exist");
