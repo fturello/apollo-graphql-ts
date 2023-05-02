@@ -17,15 +17,6 @@ const typeDefs = `#graphql
 		user(id: ID!): User!
 	}
 
-	type Mutation {
-		createPost(userId: ID!, title: String!, content: String!): Post!
-		deletePost(userId: ID!, title: String!): Boolean!
-		updatePost(userId: ID!, title: String!, input: PostInput!): Boolean!
-		createUser(id: ID!, name: String!, email: String!): User!
-		deleteUser(id: ID!): Boolean!
-		updateUser(id: ID!, input: UserInput!): Boolean!
-	}
-
 	input PostInput {
 		title: String
 		content: String
@@ -34,6 +25,15 @@ const typeDefs = `#graphql
 	input UserInput {
 		name: String
 		email: String
+	}
+
+	type Mutation {
+		createPost(userId: ID!, title: String!, content: String!): Post!
+		deletePost(userId: ID!, title: String!): Boolean!
+		updatePost(userId: ID!, title: String!, input: PostInput!): Boolean!
+		createUser(id: ID!, name: String!, email: String!): User!
+		deleteUser(id: ID!): Boolean!
+		updateUser(id: ID!, input: UserInput!): Boolean!
 	}
 `;
 
