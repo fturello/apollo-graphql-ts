@@ -1,4 +1,4 @@
-import { User, Post, PostInput, UserInput } from "./types.js";
+import { User, Post, PostInput, UserInput } from "./interfaces.js";
 
 // Datas
 const users: User[] = [
